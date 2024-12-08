@@ -1,0 +1,10 @@
+CREATE TABLE USUARIO (
+    id_usuario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    login VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL UNIQUE,
+    data_da_alteracao DATETIME,
+    endereco VARCHAR(100),
+    tipo_usuario ENUM('CLIENTE', 'RESTAURANTE') NOT NULL
+);
