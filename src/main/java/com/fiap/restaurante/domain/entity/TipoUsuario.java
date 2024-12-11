@@ -1,4 +1,4 @@
-package domain.entity;
+package com.fiap.restaurante.domain.entity;
 
 public enum TipoUsuario {
     CLIENTE,
