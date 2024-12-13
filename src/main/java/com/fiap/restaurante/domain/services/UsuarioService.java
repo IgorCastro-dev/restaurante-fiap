@@ -4,6 +4,7 @@ import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
 
@@ -30,4 +31,20 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return usuarioDto;
     }
+
+    public UsuarioDto getUsuario(Integer idUsuario) {
+        return usuarioMapper.entityToDto(getUsuarioByid(idUsuario));
+    }
+
+
+    public void deletaUsuario(Integer idUsuario) {
+        usuarioRepository.delete(getUsuarioByid(idUsuario));
+    }
+
+
+    private Usuario getUsuarioByid(Integer idUsuario) {
+        return usuarioRepository.findById(idUsuario).orElseThrow(() ->
+                new RuntimeException("Usuário com ID " + idUsuario + " não encontrado"));
+    }
+
 }
