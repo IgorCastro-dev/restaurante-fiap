@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+    public Usuario() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")

@@ -1,5 +1,6 @@
 package com.fiap.restaurante.domain.controller;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
+import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +31,7 @@ public class UsuarioController {
     }
 
     @PostMapping(value = "/cadastrar")
-    public ResponseEntity<UsuarioDto> cadastrarUsuario(@Valid  @RequestBody UsuarioDto usuarioDto){
+    public ResponseEntity<UsuarioSemSenhaDto> cadastrarUsuario(@Valid  @RequestBody UsuarioDto usuarioDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.salvarUsuario(usuarioDto));
     }
 
@@ -44,5 +46,9 @@ public class UsuarioController {
         return ResponseEntity.ok("Usuário deletado com sucesso");
     }
 
+    @PutMapping(value = "/{idUsuario}")
+    public ResponseEntity<UsuarioSemSenhaDto> atualizarUsuario(@Valid @RequestBody UsuarioSemSenhaDto usuarioDto,@PathVariable Integer idUsuario){
+        return ResponseEntity.ok(usuarioService.atualizaUsuario(usuarioDto,idUsuario));
+    }
 
 }

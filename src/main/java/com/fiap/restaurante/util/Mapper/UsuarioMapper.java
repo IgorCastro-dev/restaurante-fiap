@@ -1,6 +1,7 @@
 package com.fiap.restaurante.util.Mapper;
 
 import com.fiap.restaurante.domain.dto.UsuarioDto;
+import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.entity.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +26,9 @@ public class UsuarioMapper {
     public List<UsuarioDto> entitiesToDtos(List<Usuario> usuarios){
         return usuarios.stream().map(this::entityToDto).collect(Collectors.toList());
     }
+
+    public UsuarioSemSenhaDto entityToSemSenhaDto(Usuario usuario){
+        return modelMapper.map(usuario, UsuarioSemSenhaDto.class);
+    }
+
 }
