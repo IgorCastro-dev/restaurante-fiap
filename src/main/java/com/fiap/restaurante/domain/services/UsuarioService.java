@@ -34,7 +34,7 @@ public class UsuarioService {
                 .findByEmailOrLogin(usuarioDtoEmail,usuarioDtoLogin)
                 .isPresent();
         if(usuarioJaExiste){
-            throw new UsuarioAlreadyExistsException(String.format(USER_ALREADY_EXISTS_MESSAGE,usuarioDtoEmail,usuarioDtoLogin));
+            throw new UsuarioAlreadyExistsException(String.format(USER_ALREADY_EXISTS_MESSAGE,usuarioDtoLogin,usuarioDtoEmail));
         }
         return usuarioMapper.entityToSemSenhaDto(usuarioRepository.save(usuario));
     }
