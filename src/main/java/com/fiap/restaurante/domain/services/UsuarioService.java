@@ -4,6 +4,7 @@ import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
+import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 public class UsuarioService {
+    private static final String USER_NOT_FOUND_MESSAGE = "Usuário com o id: %d não encontrado";
     @Autowired
     private UsuarioMapper usuarioMapper;
     @Autowired
@@ -54,7 +56,8 @@ public class UsuarioService {
     }
 
     private Usuario getUsuarioByid(Integer idUsuario) {
-        return usuarioRepository.findById(idUsuario).orElseThrow(() ->
-                new RuntimeException("Usuário com ID " + idUsuario + " não encontrado"));
+        return usuarioRepository.findById(idUsuario).orElseThrow(
+                ()-> new UsuarioNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,idUsuario))
+        );
     }
 }
