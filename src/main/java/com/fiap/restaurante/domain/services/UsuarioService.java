@@ -4,6 +4,8 @@ import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
+import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
+import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class UsuarioService {
+    private static final String USER_NOT_FOUND_MESSAGE = "Usuário com o id: %d não encontrado";
+    private static final String USER_ALREADY_EXISTS_MESSAGE = "Já existe um usuario com o login: %s ou email: %s cadastrado";
     @Autowired
     private UsuarioMapper usuarioMapper;
     @Autowired
@@ -24,11 +28,13 @@ public class UsuarioService {
 
     public UsuarioSemSenhaDto salvarUsuario(UsuarioDto usuarioDto) {
         Usuario usuario = usuarioMapper.dtoToEntity(usuarioDto);
+        String usuarioDtoEmail = usuarioDto.getEmail();
+        String usuarioDtoLogin = usuarioDto.getLogin();
         boolean usuarioJaExiste = usuarioRepository
-                .findByEmailOrLogin(usuarioDto.getEmail(),usuarioDto.getLogin())
+                .findByEmailOrLogin(usuarioDtoEmail,usuarioDtoLogin)
                 .isPresent();
         if(usuarioJaExiste){
-            throw new IllegalArgumentException("Usuário com este e-mail ou login já existe.");
+            throw new UsuarioAlreadyExistsException(String.format(USER_ALREADY_EXISTS_MESSAGE,usuarioDtoLogin,usuarioDtoEmail));
         }
         return usuarioMapper.entityToSemSenhaDto(usuarioRepository.save(usuario));
     }
@@ -54,7 +60,8 @@ public class UsuarioService {
     }
 
     private Usuario getUsuarioByid(Integer idUsuario) {
-        return usuarioRepository.findById(idUsuario).orElseThrow(() ->
-                new RuntimeException("Usuário com ID " + idUsuario + " não encontrado"));
+        return usuarioRepository.findById(idUsuario).orElseThrow(
+                ()-> new UsuarioNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,idUsuario))
+        );
     }
 }
