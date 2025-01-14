@@ -7,6 +7,9 @@ import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
 import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
 
@@ -15,8 +18,9 @@ import java.util.List;
 
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
     private static final String USER_NOT_FOUND_MESSAGE = "Usuário com o id: %d não encontrado";
+    private static final String LOGIN_NOT_FOUND_MESSAGE = "Usuário com o login: %s não encontrado";
     private static final String USER_ALREADY_EXISTS_MESSAGE = "Já existe um usuario com o login: %s ou email: %s cadastrado";
     @Autowired
     private UsuarioMapper usuarioMapper;
@@ -62,6 +66,13 @@ public class UsuarioService {
     private Usuario getUsuarioByid(Integer idUsuario) {
         return usuarioRepository.findById(idUsuario).orElseThrow(
                 ()-> new UsuarioNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,idUsuario))
+        );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.findByLogin(username).orElseThrow(
+                ()-> new UsuarioNotFoundException(String.format(LOGIN_NOT_FOUND_MESSAGE,username))
         );
     }
 }

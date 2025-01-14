@@ -1,6 +1,13 @@
 package com.fiap.restaurante.domain.entity;
 
-public enum TipoUsuario {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum TipoUsuario implements GrantedAuthority {
     CLIENTE,
-    RESTAURANTE
+    RESTAURANTE;
+
+    @Override
+    public String getAuthority() {
+        return this.name();
+    }
 }
