@@ -6,10 +6,12 @@ import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
 import com.fiap.restaurante.exception.UsuarioNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
 
@@ -26,10 +28,13 @@ public class UsuarioService implements UserDetailsService {
     private UsuarioMapper usuarioMapper;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public List<UsuarioDto> listaUsuario() {
         return usuarioMapper.entitiesToDtos(usuarioRepository.findAll());
     }
 
+    @Transactional
     public UsuarioSemSenhaDto salvarUsuario(UsuarioDto usuarioDto) {
         Usuario usuario = usuarioMapper.dtoToEntity(usuarioDto);
         String usuarioDtoEmail = usuarioDto.getEmail();
@@ -40,6 +45,7 @@ public class UsuarioService implements UserDetailsService {
         if(usuarioJaExiste){
             throw new UsuarioAlreadyExistsException(String.format(USER_ALREADY_EXISTS_MESSAGE,usuarioDtoLogin,usuarioDtoEmail));
         }
+        usuario.setSenha(passwordEncoder.encode(usuarioDto.getSenha()));
         return usuarioMapper.entityToSemSenhaDto(usuarioRepository.save(usuario));
     }
 
