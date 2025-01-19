@@ -42,7 +42,7 @@ public class UsuarioController {
     @Operation(summary = "Cadastrar um novo usuário",description = "Cadastra um novo usuário no sistema com as informações fornecidas",method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Usuário cadastrado com sucesso"),
-            @ApiResponse(responseCode = "500", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
             @ApiResponse(responseCode = "409", description = "Usuário com login ou email já existente")
     })
     @PostMapping(value = "/cadastrar")
@@ -53,7 +53,8 @@ public class UsuarioController {
     @Operation(summary = "Buscar um usuário pelo ID",description = "Retorna os detalhes de um usuário específico com base no ID fornecido",method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário encontrado"),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado")
     })
     @GetMapping(value = "/{idUsuario}")
     public ResponseEntity<UsuarioDto> buscarUsuario(@PathVariable Integer idUsuario) {
@@ -63,7 +64,8 @@ public class UsuarioController {
     @Operation(summary = "Deletar um usuário pelo ID",description = "Exclui um usuário do sistema com base no ID fornecido",method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário deletado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
+            @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado")
     })
     @DeleteMapping(value = "/{idUsuario}")
     public ResponseEntity<String> deletarUsuario(@PathVariable Integer idUsuario) {
@@ -75,7 +77,8 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário atualizado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado"),
-            @ApiResponse(responseCode = "500", description = "Dados inválidos fornecidos")
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "403", description = "Usuário não autenticado")
     })
     @PutMapping(value = "/{idUsuario}")
     public ResponseEntity<UsuarioSemSenhaDto> atualizarUsuario(@Valid @RequestBody UsuarioSemSenhaDto usuarioDto,@PathVariable Integer idUsuario){

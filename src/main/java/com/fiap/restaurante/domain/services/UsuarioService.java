@@ -4,9 +4,15 @@ import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
+import com.fiap.restaurante.exception.CredencialErradoException;
 import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
 import com.fiap.restaurante.exception.UsuarioNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.fiap.restaurante.util.Mapper.UsuarioMapper;
 
@@ -15,17 +21,21 @@ import java.util.List;
 
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
     private static final String USER_NOT_FOUND_MESSAGE = "Usuário com o id: %d não encontrado";
+    private static final String LOGIN_NOT_FOUND_MESSAGE = "Credenciais inválidas.";
     private static final String USER_ALREADY_EXISTS_MESSAGE = "Já existe um usuario com o login: %s ou email: %s cadastrado";
     @Autowired
     private UsuarioMapper usuarioMapper;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public List<UsuarioDto> listaUsuario() {
         return usuarioMapper.entitiesToDtos(usuarioRepository.findAll());
     }
 
+    @Transactional
     public UsuarioSemSenhaDto salvarUsuario(UsuarioDto usuarioDto) {
         Usuario usuario = usuarioMapper.dtoToEntity(usuarioDto);
         String usuarioDtoEmail = usuarioDto.getEmail();
@@ -36,6 +46,7 @@ public class UsuarioService {
         if(usuarioJaExiste){
             throw new UsuarioAlreadyExistsException(String.format(USER_ALREADY_EXISTS_MESSAGE,usuarioDtoLogin,usuarioDtoEmail));
         }
+        usuario.setSenha(passwordEncoder.encode(usuarioDto.getSenha()));
         return usuarioMapper.entityToSemSenhaDto(usuarioRepository.save(usuario));
     }
 
@@ -62,6 +73,13 @@ public class UsuarioService {
     private Usuario getUsuarioByid(Integer idUsuario) {
         return usuarioRepository.findById(idUsuario).orElseThrow(
                 ()-> new UsuarioNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,idUsuario))
+        );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return usuarioRepository.findByLogin(username).orElseThrow(
+                ()-> new CredencialErradoException(LOGIN_NOT_FOUND_MESSAGE)
         );
     }
 }

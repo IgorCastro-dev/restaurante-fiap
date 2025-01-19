@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public OpenAPI customSwagger(){
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de um Restaurante")
+                        .title("API de Restaurantes")
                         .description("Documentação para uma API de Restaurante")
                         .version(versionValue)
                         .contact(new Contact()
