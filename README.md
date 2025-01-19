@@ -25,7 +25,7 @@ Entre no terminal
 Clone o projeto
 
 ```bash
-  git clone https://github.com/IgorCastro-dev/UFF-Materias.git
+  git clone https://github.com/IgorCastro-dev/restaurante-fiap.git
 ```
 
 Entre no diretório do projeto
