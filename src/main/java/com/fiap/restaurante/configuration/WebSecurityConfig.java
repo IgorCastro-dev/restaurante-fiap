@@ -29,6 +29,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(request -> {
             request.requestMatchers("/login").permitAll();
             request.requestMatchers(HttpMethod.POST,"/usuario/cadastrar").permitAll();
+            request.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
             request.anyRequest().authenticated();
         });
         http.formLogin(AbstractHttpConfigurer::disable);

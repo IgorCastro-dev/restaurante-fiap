@@ -4,6 +4,7 @@ import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
+import com.fiap.restaurante.exception.CredencialErradoException;
 import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
 import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import jakarta.transaction.Transactional;
@@ -78,7 +79,7 @@ public class UsuarioService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usuarioRepository.findByLogin(username).orElseThrow(
-                ()-> new UsuarioNotFoundException(String.format(LOGIN_NOT_FOUND_MESSAGE,username))
+                ()-> new CredencialErradoException(LOGIN_NOT_FOUND_MESSAGE)
         );
     }
 }

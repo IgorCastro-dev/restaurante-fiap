@@ -46,8 +46,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CredencialErradoException.class)
     public ResponseEntity<RestErroMessage> senhaErradaException(CredencialErradoException e){
-        RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.BAD_REQUEST,e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErroMessage);
+        RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.UNAUTHORIZED,e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(restErroMessage);
     }
 
     @ExceptionHandler(UsuarioAlreadyExistsException.class)
