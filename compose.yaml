@@ -7,4 +7,4 @@ services:
       - 'MYSQL_ROOT_PASSWORD=Mudar@1234'
       - 'MYSQL_USER=icastro'
     ports:
-      - '3306'
+      - '3306:3306'

@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class UsuarioService implements UserDetailsService {
     private static final String USER_NOT_FOUND_MESSAGE = "Usuário com o id: %d não encontrado";
-    private static final String LOGIN_NOT_FOUND_MESSAGE = "Usuário com o login: %s não encontrado";
+    private static final String LOGIN_NOT_FOUND_MESSAGE = "Credenciais inválidas.";
     private static final String USER_ALREADY_EXISTS_MESSAGE = "Já existe um usuario com o login: %s ou email: %s cadastrado";
     @Autowired
     private UsuarioMapper usuarioMapper;
