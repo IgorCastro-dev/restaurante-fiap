@@ -31,7 +31,7 @@ Clone o projeto
 Entre no diretório do projeto
 
 ```bash
-  cd restaurante
+  cd restaurante-fiap
 ```
 
 Execute o Docker Compose:
