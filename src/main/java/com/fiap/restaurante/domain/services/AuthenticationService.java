@@ -5,6 +5,7 @@ import com.fiap.restaurante.domain.dto.TrocaSenhaDto;
 import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.exception.CredencialErradoException;
+import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,16 @@ public class AuthenticationService {
 
 
     public String trocaSenha(TrocaSenhaDto trocaSenhaDto, String bearerToken) {
+        String login = getSubjectFromToken(bearerToken);
+
+
+        Usuario usuario = usuarioRepository.findByLogin(login)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuário "+login+" não encontrado."));
+
         if(!trocaSenhaDto.getNovaSenha().equals(trocaSenhaDto.getConfirmaSenha())){
             throw new CredencialErradoException("Senha de confirmação é diferente");
         }
-        String login = getSubjectFromToken(bearerToken);
 
-        Usuario usuario = usuarioRepository.findByLogin(login).get();
         if(!passwordEncoder.matches(trocaSenhaDto.getSenhaAtual(),usuario.getSenha())){
             throw new CredencialErradoException("Senha atual está errada");
         }

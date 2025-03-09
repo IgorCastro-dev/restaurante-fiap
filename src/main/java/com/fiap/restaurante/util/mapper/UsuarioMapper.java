@@ -1,4 +1,4 @@
-package com.fiap.restaurante.util.Mapper;
+package com.fiap.restaurante.util.mapper;
 
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
