@@ -1,7 +1,6 @@
 package com.fiap.restaurante.domain.repository;
 
 import com.fiap.restaurante.domain.entity.Usuario;
-import com.fiap.restaurante.domain.services.AuthenticationService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
