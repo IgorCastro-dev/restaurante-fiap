@@ -44,6 +44,12 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErroMessage);
     }
 
+    @ExceptionHandler(TipoUsuarioNotFoundException.class)
+    public ResponseEntity<RestErroMessage> tipoUsuarioNaoEncontrado(TipoUsuarioNotFoundException e){
+        RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.NOT_FOUND,e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErroMessage);
+    }
+
     @ExceptionHandler(CredencialErradoException.class)
     public ResponseEntity<RestErroMessage> senhaErradaException(CredencialErradoException e){
         RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.UNAUTHORIZED,e.getMessage());

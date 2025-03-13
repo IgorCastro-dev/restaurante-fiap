@@ -6,5 +6,5 @@ CREATE TABLE usuario (
     senha VARCHAR(255) NOT NULL UNIQUE,
     data_da_alteracao DATETIME,
     endereco VARCHAR(100),
-    tipo_usuario ENUM('CLIENTE', 'RESTAURANTE') NOT NULL
+    tipo_usuario ENUM('CLIENTE', 'DONO_DE_RESTAURANTE') NOT NULL
 );

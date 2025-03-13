@@ -47,7 +47,7 @@ public class Usuario implements UserDetails {
 
     private String endereco;
 
-    @Column(name = "tipo_usuario", nullable = false)
+    @Column(name = "tipo_usuario")
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
 
