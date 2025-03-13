@@ -1,6 +1,7 @@
 package com.fiap.restaurante.domain.services;
 
 import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
+import com.fiap.restaurante.domain.entity.TipoUsuario;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.entity.Usuario;
@@ -70,7 +71,7 @@ public class UsuarioService implements UserDetailsService {
         return usuarioMapper.entityToSemSenhaDto(usuarioRepository.save(usuarioExistente));
     }
 
-    private Usuario getUsuarioByid(Integer idUsuario) {
+    public Usuario getUsuarioByid(Integer idUsuario) {
         return usuarioRepository.findById(idUsuario).orElseThrow(
                 ()-> new UsuarioNotFoundException(String.format(USER_NOT_FOUND_MESSAGE,idUsuario))
         );
