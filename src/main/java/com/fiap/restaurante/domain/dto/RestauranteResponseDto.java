@@ -2,9 +2,15 @@ package com.fiap.restaurante.domain.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RestauranteResponseDto {
     @NotBlank(message = "O nome do restaurante é obrigatório")
     private String nome;
@@ -19,5 +25,5 @@ public class RestauranteResponseDto {
     private String horarioFuncionamento;
 
     @NotNull(message = "O Usuário dono do restaurante é obrigatório")
-    private UsuarioDto usuarioDto;
+    private UsuarioSemSenhaDto usuarioDto;
 }

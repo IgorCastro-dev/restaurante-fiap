@@ -20,6 +20,6 @@ public class RestauranteRequestDto {
     private String horarioFuncionamento;
 
     @NotNull(message = "O ID do usuário dono do restaurante é obrigatório")
-    private Long idUsuario;
+    private Integer idUsuario;
 }
 

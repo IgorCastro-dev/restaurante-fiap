@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class TipoUsuarioNotFoundException extends RuntimeException{
     public TipoUsuarioNotFoundException(String message){
-        super(message);
-    }
+            super(message);
+        }
+
 }
