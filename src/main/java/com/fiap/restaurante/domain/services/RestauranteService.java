@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RestauranteService {
     @Autowired
@@ -32,5 +34,9 @@ public class RestauranteService {
         Restaurante restaurante = restauranteMapper.requestDtoToEntity(usuario,restauranteRequestDto);
         restauranteRepository.save(restaurante);
         return restauranteMapper.entityToResponse(restaurante);
+    }
+
+    public List<RestauranteResponseDto> listarRestaurante() {
+        return restauranteMapper.entitiesToResponseDto(restauranteRepository.findAll());
     }
 }

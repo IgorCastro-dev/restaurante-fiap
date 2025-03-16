@@ -2,6 +2,7 @@ package com.fiap.restaurante.domain.controller;
 
 import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.services.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,9 +12,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Tag(name = "Restaurante Controller")
 @RestController
@@ -27,10 +31,19 @@ public class RestauranteController {
             @ApiResponse(responseCode = "201", description = "Restaurante cadastrado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
             @ApiResponse(responseCode = "404", description = "Usuário não existe"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos")
+            @ApiResponse(responseCode = "404", description = "Tipo de usuário não existe"),
     })
     @PostMapping(value = "/cadastrar")
     public ResponseEntity<RestauranteResponseDto> cadastrarRestaurante(@Valid @RequestBody RestauranteRequestDto restauranteRequestDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(restauranteService.salvarRestaurante(restauranteRequestDto));
     }
+
+    @Operation(summary = "Listar todos os restaurantes",method = "GET")
+    @ApiResponse(responseCode = "200",description = "Lista de restaurantes retornada com sucesso")
+    @GetMapping(value = "/listar")
+    public ResponseEntity<List<RestauranteResponseDto>> listarRestaurante(){
+        return ResponseEntity.ok(restauranteService.listarRestaurante());
+    }
+
+
 }
