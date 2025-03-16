@@ -44,6 +44,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErroMessage);
     }
 
+    @ExceptionHandler(RestauranteNotFoundException.class)
+    public ResponseEntity<RestErroMessage> restauranteNaoEncontrado(RestauranteNotFoundException e){
+        RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.NOT_FOUND,e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(restErroMessage);
+    }
+
+    @ExceptionHandler(TipoUsuarioException.class)
+    public ResponseEntity<RestErroMessage> tipoUsuarioNaoEncontrado(TipoUsuarioException e){
+        RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.BAD_REQUEST,e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(restErroMessage);
+    }
+
     @ExceptionHandler(TipoUsuarioNotFoundException.class)
     public ResponseEntity<RestErroMessage> tipoUsuarioNaoEncontrado(TipoUsuarioNotFoundException e){
         RestErroMessage restErroMessage = getRestErroMessage(HttpStatus.NOT_FOUND,e.getMessage());

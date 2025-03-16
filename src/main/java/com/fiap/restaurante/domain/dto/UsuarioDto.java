@@ -5,6 +5,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -26,6 +27,8 @@ public class UsuarioDto {
     private String endereco;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "O tipo de usuário é obrigatório")
     private TipoUsuario tipoUsuario;
+
 
 }

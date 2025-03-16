@@ -1,12 +1,10 @@
 package com.fiap.restaurante.domain.entity;
 
 import com.fiap.restaurante.exception.TipoUsuarioNotFoundException;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 
-@Getter
 public enum TipoUsuario implements GrantedAuthority {
     CLIENTE("Cliente"),
     DONO_DE_RESTAURANTE("Dono de Restaurante");
@@ -27,5 +25,9 @@ public enum TipoUsuario implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return this.name();
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 }
