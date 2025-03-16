@@ -3,6 +3,7 @@ package com.fiap.restaurante.domain.services;
 
 import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.entity.Restaurante;
 import com.fiap.restaurante.domain.entity.TipoUsuario;
 import com.fiap.restaurante.domain.entity.Usuario;
@@ -15,6 +16,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -52,4 +54,23 @@ public class RestauranteService {
                 ()-> new RestauranteNotFoundException(String.format(RESTAURANTE_NOT_FOUND_MESSAGE,idRestaurante))
         );
     }
+
+
+    public RestauranteResponseDto atualizaRestaurante(RestauranteRequestDto restauranteRequestDto, Integer idRestaurante) {
+        Restaurante restaurante = getRestauranteByid(idRestaurante);
+        Usuario usuario = usuarioService.getUsuarioByid(restauranteRequestDto.getIdUsuario());
+
+        if(!usuario.getTipoUsuario().equals(TipoUsuario.DONO_DE_RESTAURANTE)){
+            throw new TipoUsuarioException("Este usuário não é um "+TipoUsuario.DONO_DE_RESTAURANTE.getDescricao());
+        }
+
+        restaurante.setNome(restauranteRequestDto.getNome());
+        restaurante.setDono(usuario);
+        restaurante.setEndereco(restauranteRequestDto.getEndereco());
+        restaurante.setTipoCozinha(restauranteRequestDto.getTipoCozinha());
+        restaurante.setHorarioFuncionamento(restauranteRequestDto.getHorarioFuncionamento());
+
+        return restauranteMapper.entityToResponse(restauranteRepository.save(restaurante));
+    }
+
 }

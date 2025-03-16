@@ -3,6 +3,7 @@ package com.fiap.restaurante.domain.controller;
 import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
+import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,4 +62,16 @@ public class RestauranteController {
         return ResponseEntity.ok("Restaurante deletado com sucesso");
     }
 
+
+    @Operation(summary = "Atualizar um restaurante pelo ID",description = "Atualiza as informações de um restaurante existente no sistema",method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurante atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Restaurante não encontrado"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "403", description = "Restaurante não autenticado")
+    })
+    @PutMapping(value = "/{idRestaurante}")
+    public ResponseEntity<RestauranteResponseDto> atualizarRestaurante(@Valid @RequestBody RestauranteRequestDto restauranteRequestDto, @PathVariable Integer idRestaurante){
+        return ResponseEntity.ok(restauranteService.atualizaRestaurante(restauranteRequestDto,idRestaurante));
+    }
 }
