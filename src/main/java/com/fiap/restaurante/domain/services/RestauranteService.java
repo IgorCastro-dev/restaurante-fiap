@@ -3,6 +3,7 @@ package com.fiap.restaurante.domain.services;
 
 import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.entity.Restaurante;
 import com.fiap.restaurante.domain.entity.TipoUsuario;
@@ -73,4 +74,7 @@ public class RestauranteService {
         return restauranteMapper.entityToResponse(restauranteRepository.save(restaurante));
     }
 
+    public RestauranteResponseDto getRestaurante(Integer idRestaurante) {
+        return restauranteMapper.entityToResponse(getRestauranteByid(idRestaurante));
+    }
 }

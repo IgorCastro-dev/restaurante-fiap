@@ -3,7 +3,6 @@ package com.fiap.restaurante.domain.controller;
 import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.dto.UsuarioDto;
-import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.RestauranteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -73,5 +72,16 @@ public class RestauranteController {
     @PutMapping(value = "/{idRestaurante}")
     public ResponseEntity<RestauranteResponseDto> atualizarRestaurante(@Valid @RequestBody RestauranteRequestDto restauranteRequestDto, @PathVariable Integer idRestaurante){
         return ResponseEntity.ok(restauranteService.atualizaRestaurante(restauranteRequestDto,idRestaurante));
+    }
+
+    @Operation(summary = "Buscar um restaurante pelo ID",description = "Retorna os detalhes de um restaurante específico com base no ID fornecido",method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurante encontrado"),
+            @ApiResponse(responseCode = "404", description = "Restaurante não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Restaurante não autenticado")
+    })
+    @GetMapping(value = "/{idRestaurante}")
+    public ResponseEntity<RestauranteResponseDto> buscarRestaurante(@PathVariable Integer idRestaurante) {
+        return ResponseEntity.ok(restauranteService.getRestaurante(idRestaurante));
     }
 }
