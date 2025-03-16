@@ -12,7 +12,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,5 +47,17 @@ public class RestauranteController {
         return ResponseEntity.ok(restauranteService.listarRestaurante());
     }
 
+
+    @Operation(summary = "Deletar um restaurante pelo ID",description = "Exclui um restaurante do sistema com base no ID fornecido",method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Restaurante deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Restaurante não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Restaurante não autenticado")
+    })
+    @DeleteMapping(value = "/{idRestaurante}")
+    public ResponseEntity<String> deletarRestaurante(@PathVariable Integer idRestaurante) {
+        restauranteService.deletaRestaurante(idRestaurante);
+        return ResponseEntity.ok("Restaurante deletado com sucesso");
+    }
 
 }
