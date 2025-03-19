@@ -47,11 +47,14 @@ public class ItemCardapioService {
         return itemCardapioMapper.entitiesToDto(itemCardapioRepository.findAll());
     }
 
+    public void deletaCardapio(Long idCardapio) {
+        itemCardapioRepository.delete(getCardapioByid(idCardapio));
+    }
+
     public ItemCardapio getCardapioByid(Long idCardapio) {
         return itemCardapioRepository.findById(idCardapio).orElseThrow(
                 ()-> new UsuarioNotFoundException(String.format(CARDAPIO_NOT_FOUND_MESSAGE,idCardapio))
         );
     }
-
 
 }
