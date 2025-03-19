@@ -3,6 +3,7 @@ package com.fiap.restaurante.domain.controller;
 
 import com.fiap.restaurante.domain.dto.ItemCardapioDto;
 import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.domain.dto.UsuarioDto;
 import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.ItemCardapioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,7 +62,7 @@ public class ItemCardapioController {
         return ResponseEntity.ok(itemCardapioService.listarCardapio());
     }
 
-    @Operation(summary = "Deletar um usuário pelo ID",description = "Exclui um usuário do sistema com base no ID fornecido",method = "DELETE")
+    @Operation(summary = "Deletar um item do cardapio pelo ID",description = "Exclui um item do cardapio do sistema com base no ID fornecido",method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Item do cardapio deletado com sucesso"),
             @ApiResponse(responseCode = "404", description = "Item do cardapio não encontrado")
@@ -70,5 +71,16 @@ public class ItemCardapioController {
     public ResponseEntity<String> deletarCardapio(@PathVariable Long idCardapio) {
         itemCardapioService.deletaCardapio(idCardapio);
         return ResponseEntity.ok("Cardapio deletado com sucesso");
+    }
+
+    @Operation(summary = "Buscar um item do cardapio pelo ID",description = "Retorna os detalhes de um item do cardapio específico com base no ID fornecido",method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Item do cardapio encontrado"),
+            @ApiResponse(responseCode = "404", description = "Item do cardapio não encontrado"),
+            @ApiResponse(responseCode = "403", description = "Item do cardapio não autenticado")
+    })
+    @GetMapping(value = "/{idCardapio}")
+    public ResponseEntity<ItemCardapioDto> buscarCardapio(@PathVariable Long idCardapio) {
+        return ResponseEntity.ok(itemCardapioService.getCardapio(idCardapio));
     }
 }

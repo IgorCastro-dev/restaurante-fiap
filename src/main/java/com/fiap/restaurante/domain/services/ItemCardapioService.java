@@ -1,6 +1,7 @@
 package com.fiap.restaurante.domain.services;
 
 import com.fiap.restaurante.domain.dto.ItemCardapioDto;
+import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.entity.ItemCardapio;
 import com.fiap.restaurante.domain.repository.ItemCardapioRepository;
 import com.fiap.restaurante.exception.UsuarioNotFoundException;
@@ -49,6 +50,10 @@ public class ItemCardapioService {
 
     public void deletaCardapio(Long idCardapio) {
         itemCardapioRepository.delete(getCardapioByid(idCardapio));
+    }
+
+    public ItemCardapioDto getCardapio(Long idCardapio) {
+        return itemCardapioMapper.entityToDto(getCardapioByid(idCardapio));
     }
 
     public ItemCardapio getCardapioByid(Long idCardapio) {
