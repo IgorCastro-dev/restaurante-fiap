@@ -2,6 +2,7 @@ package com.fiap.restaurante.domain.controller;
 
 
 import com.fiap.restaurante.domain.dto.ItemCardapioDto;
+import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.ItemCardapioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,7 +12,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +36,16 @@ public class ItemCardapioController {
     @PostMapping(value = "/cadastrar")
     public ResponseEntity<ItemCardapioDto> cadastrarCardapio(@Valid @RequestBody ItemCardapioDto itemCardapioDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(itemCardapioService.salvarItemCardapio(itemCardapioDto));
+    }
+
+    @Operation(summary = "Atualizar um item do cardapio pelo ID",description = "Atualiza as informações de um item do cardapio existente no sistema",method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Item do ardapio atualizado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Item do Cardapio não encontrado"),
+            @ApiResponse(responseCode = "400", description = "Item do Dados inválidos fornecidos")
+    })
+    @PutMapping(value = "/{idCardapio}")
+    public ResponseEntity<ItemCardapioDto> atualizarCardapio(@Valid @RequestBody ItemCardapioDto itemCardapioDto, @PathVariable Long idCardapio){
+        return ResponseEntity.ok(itemCardapioService.atualizaCardapio(itemCardapioDto,idCardapio));
     }
 }

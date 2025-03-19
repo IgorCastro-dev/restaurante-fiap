@@ -1,19 +1,20 @@
 package com.fiap.restaurante.domain.services;
 
 import com.fiap.restaurante.domain.dto.ItemCardapioDto;
-import com.fiap.restaurante.domain.dto.UsuarioDto;
-import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.entity.ItemCardapio;
-import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.domain.repository.ItemCardapioRepository;
-import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
+import com.fiap.restaurante.exception.UsuarioNotFoundException;
 import com.fiap.restaurante.util.mapper.ItemCardapioMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ItemCardapioService {
+
+    private static final String CARDAPIO_NOT_FOUND_MESSAGE = "Item do cardápio com o id: %d não encontrado";
+
 
     @Autowired
     private ItemCardapioMapper itemCardapioMapper;
@@ -27,4 +28,22 @@ public class ItemCardapioService {
         return itemCardapioMapper.entityToDto(itemCardapioRepository.save(itemCardapio));
     }
 
+    @Transactional
+    public ItemCardapioDto atualizaCardapio(ItemCardapioDto itemCardapioDto, Long idCardapio) {
+        ItemCardapio itemCardapioExistente = getCardapioByid(idCardapio);
+
+        itemCardapioExistente.setNome(itemCardapioDto.getNome());
+        itemCardapioExistente.setCaminhoFoto(itemCardapioDto.getCaminhoFoto());
+        itemCardapioExistente.setDescricao(itemCardapioDto.getDescricao());
+        itemCardapioExistente.setPreco(itemCardapioDto.getPreco());
+        itemCardapioExistente.setDisponivelApenasNoLocal(itemCardapioDto.isDisponivelApenasNoLocal());
+
+        return itemCardapioMapper.entityToDto(itemCardapioRepository.save(itemCardapioExistente));
+    }
+
+    public ItemCardapio getCardapioByid(Long idCardapio) {
+        return itemCardapioRepository.findById(idCardapio).orElseThrow(
+                ()-> new UsuarioNotFoundException(String.format(CARDAPIO_NOT_FOUND_MESSAGE,idCardapio))
+        );
+    }
 }
