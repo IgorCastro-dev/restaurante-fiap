@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class ItemCardapioService {
@@ -41,9 +43,15 @@ public class ItemCardapioService {
         return itemCardapioMapper.entityToDto(itemCardapioRepository.save(itemCardapioExistente));
     }
 
+    public List<ItemCardapioDto> listarCardapio() {
+        return itemCardapioMapper.entitiesToDto(itemCardapioRepository.findAll());
+    }
+
     public ItemCardapio getCardapioByid(Long idCardapio) {
         return itemCardapioRepository.findById(idCardapio).orElseThrow(
                 ()-> new UsuarioNotFoundException(String.format(CARDAPIO_NOT_FOUND_MESSAGE,idCardapio))
         );
     }
+
+
 }

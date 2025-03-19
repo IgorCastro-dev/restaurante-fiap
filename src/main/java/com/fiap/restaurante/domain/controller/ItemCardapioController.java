@@ -2,6 +2,7 @@ package com.fiap.restaurante.domain.controller;
 
 
 import com.fiap.restaurante.domain.dto.ItemCardapioDto;
+import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.services.ItemCardapioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,12 +13,15 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @Tag(name = "Item Cardapio Controller")
 @RestController
@@ -47,5 +51,12 @@ public class ItemCardapioController {
     @PutMapping(value = "/{idCardapio}")
     public ResponseEntity<ItemCardapioDto> atualizarCardapio(@Valid @RequestBody ItemCardapioDto itemCardapioDto, @PathVariable Long idCardapio){
         return ResponseEntity.ok(itemCardapioService.atualizaCardapio(itemCardapioDto,idCardapio));
+    }
+
+    @Operation(summary = "Listar todos os itens do cardapio",method = "GET")
+    @ApiResponse(responseCode = "200",description = "Lista de itens do retornada com sucesso")
+    @GetMapping(value = "/listar")
+    public ResponseEntity<List<ItemCardapioDto>> listarCardapio(){
+        return ResponseEntity.ok(itemCardapioService.listarCardapio());
     }
 }
