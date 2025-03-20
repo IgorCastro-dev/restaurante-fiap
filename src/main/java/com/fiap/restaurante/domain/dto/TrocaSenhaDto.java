@@ -1,8 +1,10 @@
 package com.fiap.restaurante.domain.dto;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class TrocaSenhaDto {
     @NotBlank(message = "A senha atual é obrigatório")
     private String senhaAtual;
