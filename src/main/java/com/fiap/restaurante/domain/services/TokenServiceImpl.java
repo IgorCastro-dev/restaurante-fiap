@@ -16,11 +16,8 @@ public class TokenServiceImpl implements TokenService {
         Date today = new Date();
         String jwt = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256,"$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
-                .setSubject(username)
-                .setIssuer("Token do app")
-                .setIssuedAt(today)
-                .setExpiration(new Date(today.getTime() + 1000 * 60 * 15))
-                .compact();
+                .setSubject(username).setIssuer("Token do app").setIssuedAt(today)
+                .setExpiration(new Date(today.getTime() + 1000 * 60 * 15)).compact();
         return new TokenDto(jwt,today.getTime(),username);
     }
 
