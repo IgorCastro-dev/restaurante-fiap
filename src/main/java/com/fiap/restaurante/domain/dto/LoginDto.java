@@ -10,4 +10,7 @@ public class LoginDto {
 
     @NotBlank
     private String password;
+
+    public LoginDto(String username, String password) {
+    }
 }
