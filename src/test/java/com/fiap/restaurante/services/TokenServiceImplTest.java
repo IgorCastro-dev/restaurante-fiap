@@ -1,7 +1,7 @@
 package com.fiap.restaurante.services;
 
-import com.fiap.restaurante.domain.dto.TokenDto;
-import com.fiap.restaurante.domain.services.TokenServiceImpl;
+import com.fiap.restaurante.presentation.dto.TokenDto;
+import com.fiap.restaurante.application.services.TokenServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;

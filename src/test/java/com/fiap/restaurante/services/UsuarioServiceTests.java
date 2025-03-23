@@ -1,15 +1,13 @@
 package com.fiap.restaurante.services;
 
-import com.fiap.restaurante.domain.dto.UsuarioDto;
-import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
+import com.fiap.restaurante.presentation.dto.UsuarioDto;
+import com.fiap.restaurante.presentation.dto.UsuarioSemSenhaDto;
 import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.domain.repository.UsuarioRepository;
-import com.fiap.restaurante.domain.services.UsuarioService;
-import com.fiap.restaurante.exception.CredencialErradoException;
-import com.fiap.restaurante.exception.UsuarioAlreadyExistsException;
-import com.fiap.restaurante.exception.UsuarioNotFoundException;
-import com.fiap.restaurante.util.mapper.UsuarioMapper;
-import jakarta.transaction.Transactional;
+import com.fiap.restaurante.application.services.UsuarioService;
+import com.fiap.restaurante.application.exception.CredencialErradoException;
+import com.fiap.restaurante.application.exception.UsuarioNotFoundException;
+import com.fiap.restaurante.infraestructure.mapper.UsuarioMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

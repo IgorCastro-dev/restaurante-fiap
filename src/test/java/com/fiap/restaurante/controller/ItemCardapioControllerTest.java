@@ -1,8 +1,8 @@
 package com.fiap.restaurante.controller;
 
-import com.fiap.restaurante.domain.controller.ItemCardapioController;
-import com.fiap.restaurante.domain.dto.ItemCardapioDto;
-import com.fiap.restaurante.domain.services.ItemCardapioService;
+import com.fiap.restaurante.presentation.dto.ItemCardapioDto;
+import com.fiap.restaurante.application.services.ItemCardapioService;
+import com.fiap.restaurante.presentation.controller.ItemCardapioController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

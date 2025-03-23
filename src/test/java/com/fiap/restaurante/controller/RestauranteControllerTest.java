@@ -1,9 +1,9 @@
 package com.fiap.restaurante.controller;
 
-import com.fiap.restaurante.domain.controller.RestauranteController;
-import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
-import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
-import com.fiap.restaurante.domain.services.RestauranteService;
+import com.fiap.restaurante.presentation.dto.RestauranteRequestDto;
+import com.fiap.restaurante.presentation.dto.RestauranteResponseDto;
+import com.fiap.restaurante.application.services.RestauranteService;
+import com.fiap.restaurante.presentation.controller.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

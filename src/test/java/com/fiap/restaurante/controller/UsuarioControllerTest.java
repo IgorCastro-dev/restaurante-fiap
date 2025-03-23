@@ -1,9 +1,9 @@
 package com.fiap.restaurante.controller;
 
-import com.fiap.restaurante.domain.controller.UsuarioController;
-import com.fiap.restaurante.domain.dto.UsuarioDto;
-import com.fiap.restaurante.domain.dto.UsuarioSemSenhaDto;
-import com.fiap.restaurante.domain.services.UsuarioService;
+import com.fiap.restaurante.presentation.dto.UsuarioDto;
+import com.fiap.restaurante.presentation.dto.UsuarioSemSenhaDto;
+import com.fiap.restaurante.application.services.UsuarioService;
+import com.fiap.restaurante.presentation.controller.UsuarioController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

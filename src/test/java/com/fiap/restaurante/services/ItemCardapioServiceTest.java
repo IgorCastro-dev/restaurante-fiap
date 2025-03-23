@@ -1,11 +1,11 @@
 package com.fiap.restaurante.services;
 
-import com.fiap.restaurante.domain.dto.ItemCardapioDto;
+import com.fiap.restaurante.presentation.dto.ItemCardapioDto;
 import com.fiap.restaurante.domain.entity.ItemCardapio;
 import com.fiap.restaurante.domain.repository.ItemCardapioRepository;
-import com.fiap.restaurante.domain.services.ItemCardapioService;
-import com.fiap.restaurante.exception.UsuarioNotFoundException;
-import com.fiap.restaurante.util.mapper.ItemCardapioMapper;
+import com.fiap.restaurante.application.services.ItemCardapioService;
+import com.fiap.restaurante.application.exception.UsuarioNotFoundException;
+import com.fiap.restaurante.infraestructure.mapper.ItemCardapioMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

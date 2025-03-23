@@ -2,8 +2,8 @@ package com.fiap.restaurante.services;
 
 import com.fiap.restaurante.domain.entity.TipoUsuario;
 import com.fiap.restaurante.domain.entity.Usuario;
-import com.fiap.restaurante.domain.services.TipoUsuarioService;
-import com.fiap.restaurante.domain.services.UsuarioService;
+import com.fiap.restaurante.application.services.TipoUsuarioService;
+import com.fiap.restaurante.application.services.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

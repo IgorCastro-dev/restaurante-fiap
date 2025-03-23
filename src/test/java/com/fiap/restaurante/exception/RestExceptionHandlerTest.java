@@ -1,5 +1,12 @@
 package com.fiap.restaurante.exception;
 
+import com.fiap.restaurante.application.exception.CredencialErradoException;
+import com.fiap.restaurante.presentation.handler.RestExceptionHandler;
+import com.fiap.restaurante.application.exception.RestauranteNotFoundException;
+import com.fiap.restaurante.application.exception.TipoUsuarioException;
+import com.fiap.restaurante.application.exception.TipoUsuarioNotFoundException;
+import com.fiap.restaurante.application.exception.UsuarioAlreadyExistsException;
+import com.fiap.restaurante.application.exception.UsuarioNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

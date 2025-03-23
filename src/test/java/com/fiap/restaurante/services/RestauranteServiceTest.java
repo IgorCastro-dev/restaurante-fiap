@@ -1,16 +1,16 @@
 package com.fiap.restaurante.services;
 
-import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
-import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.presentation.dto.RestauranteRequestDto;
+import com.fiap.restaurante.presentation.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.entity.Restaurante;
 import com.fiap.restaurante.domain.entity.TipoUsuario;
 import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.domain.repository.RestauranteRepository;
-import com.fiap.restaurante.domain.services.RestauranteService;
-import com.fiap.restaurante.domain.services.UsuarioService;
-import com.fiap.restaurante.exception.RestauranteNotFoundException;
-import com.fiap.restaurante.exception.TipoUsuarioException;
-import com.fiap.restaurante.util.mapper.RestauranteMapper;
+import com.fiap.restaurante.application.services.RestauranteService;
+import com.fiap.restaurante.application.services.UsuarioService;
+import com.fiap.restaurante.application.exception.RestauranteNotFoundException;
+import com.fiap.restaurante.application.exception.TipoUsuarioException;
+import com.fiap.restaurante.infraestructure.mapper.RestauranteMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
