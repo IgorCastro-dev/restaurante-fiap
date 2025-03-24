@@ -9,6 +9,14 @@ Uma API de um sistema robusto que permite que todos os restaurantes gerenciem ef
 
 **Back-end:** Java, Spring-Boot,JPA, My-SQL, Swagger, Docker, flyway, Segurança (JWT Oauth2)
 
+## Arquitetura utilizada
+
+A arquitetura utilizada no seu projeto é a Clean Architecture adaptada para Spring Boot, mantendo princípios do MVC (Model-View-Controller), mas com uma separação mais modular.
+
+## Docker compose
+
+O docker compose está no caminho \restaurante\compose.yaml da aplicação
+
 
 ## Funcionalidades
 
