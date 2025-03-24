@@ -1,16 +1,16 @@
 package com.fiap.restaurante.services;
 
-import com.fiap.restaurante.domain.dto.RestauranteRequestDto;
-import com.fiap.restaurante.domain.dto.RestauranteResponseDto;
+import com.fiap.restaurante.presentation.dto.RestauranteRequestDto;
+import com.fiap.restaurante.presentation.dto.RestauranteResponseDto;
 import com.fiap.restaurante.domain.entity.Restaurante;
 import com.fiap.restaurante.domain.entity.TipoUsuario;
 import com.fiap.restaurante.domain.entity.Usuario;
 import com.fiap.restaurante.domain.repository.RestauranteRepository;
-import com.fiap.restaurante.domain.services.RestauranteService;
-import com.fiap.restaurante.domain.services.UsuarioService;
-import com.fiap.restaurante.exception.RestauranteNotFoundException;
-import com.fiap.restaurante.exception.TipoUsuarioException;
-import com.fiap.restaurante.util.mapper.RestauranteMapper;
+import com.fiap.restaurante.application.services.RestauranteService;
+import com.fiap.restaurante.application.services.UsuarioService;
+import com.fiap.restaurante.application.exception.RestauranteNotFoundException;
+import com.fiap.restaurante.application.exception.TipoUsuarioException;
+import com.fiap.restaurante.infraestructure.mapper.RestauranteMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,10 +74,8 @@ public class RestauranteServiceTest {
         when(restauranteRepository.save(restaurante)).thenReturn(restaurante);
         when(restauranteMapper.entityToResponse(restaurante)).thenReturn(responseDto);
 
-        // Act
         RestauranteResponseDto result = restauranteService.salvarRestaurante(requestDto);
 
-        // Assert
         Assertions.assertEquals(responseDto, result);
         Mockito.verify(usuarioService, Mockito.times(1)).getUsuarioByid(1);
         Mockito.verify(restauranteMapper, Mockito.times(1)).requestDtoToEntity(usuario, requestDto);
@@ -88,7 +86,6 @@ public class RestauranteServiceTest {
     @Test
     @Transactional
     void givenInvalidUsuario_whenSalvarRestaurante_thenThrowTipoUsuarioException() {
-        // Arrange
         RestauranteRequestDto requestDto = new RestauranteRequestDto();
         requestDto.setIdUsuario(1);
 
@@ -98,7 +95,6 @@ public class RestauranteServiceTest {
 
         when(usuarioService.getUsuarioByid(1)).thenReturn(usuario);
 
-        // Act & Assert
         Assertions.assertThrows(TipoUsuarioException.class, () ->
                 restauranteService.salvarRestaurante(requestDto));
         Mockito.verify(usuarioService, Mockito.times(1)).getUsuarioByid(1);
@@ -106,7 +102,6 @@ public class RestauranteServiceTest {
 
     @Test
     void givenRestaurantes_whenListarRestaurante_thenReturnListOfRestauranteResponseDto() {
-        // Arrange
         Restaurante restaurante = new Restaurante();
         restaurante.setIdRestaurante(1L);
         restaurante.setNome("Restaurante Teste");
@@ -117,10 +112,8 @@ public class RestauranteServiceTest {
         when(restauranteRepository.findAll()).thenReturn(List.of(restaurante));
         when(restauranteMapper.entitiesToResponseDto(List.of(restaurante))).thenReturn(List.of(responseDto));
 
-        // Act
         List<RestauranteResponseDto> result = restauranteService.listarRestaurante();
 
-        // Assert
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(responseDto, result.get(0));
         Mockito.verify(restauranteRepository, Mockito.times(1)).findAll();
@@ -129,26 +122,21 @@ public class RestauranteServiceTest {
 
     @Test
     void givenValidId_whenDeletaRestaurante_thenDeleteRestaurante() {
-        // Arrange
         Restaurante restaurante = new Restaurante();
         restaurante.setIdRestaurante(1L);
 
         when(restauranteRepository.findById(1)).thenReturn(Optional.of(restaurante));
 
-        // Act
         restauranteService.deletaRestaurante(1);
 
-        // Assert
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
         Mockito.verify(restauranteRepository, Mockito.times(1)).delete(restaurante);
     }
 
     @Test
     void givenInvalidId_whenDeletaRestaurante_thenThrowRestauranteNotFoundException() {
-        // Arrange
         when(restauranteRepository.findById(1)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(RestauranteNotFoundException.class, () ->
                 restauranteService.deletaRestaurante(1));
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
@@ -156,26 +144,21 @@ public class RestauranteServiceTest {
 
     @Test
     void givenValidId_whenGetRestauranteByid_thenReturnRestaurante() {
-        // Arrange
         Restaurante restaurante = new Restaurante();
         restaurante.setIdRestaurante(1L);
 
         when(restauranteRepository.findById(1)).thenReturn(Optional.of(restaurante));
 
-        // Act
         Restaurante result = restauranteService.getRestauranteByid(1);
 
-        // Assert
         Assertions.assertEquals(restaurante, result);
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
     }
 
     @Test
     void givenInvalidId_whenGetRestauranteByid_thenThrowRestauranteNotFoundException() {
-        // Arrange
         when(restauranteRepository.findById(1)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(RestauranteNotFoundException.class, () ->
                 restauranteService.getRestauranteByid(1));
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
@@ -183,7 +166,6 @@ public class RestauranteServiceTest {
 
     @Test
     void givenValidRestauranteRequestDto_whenAtualizaRestaurante_thenReturnRestauranteResponseDto() {
-        // Arrange
         RestauranteRequestDto requestDto = new RestauranteRequestDto();
         requestDto.setIdUsuario(1);
         requestDto.setNome("Restaurante Atualizado");
@@ -214,10 +196,8 @@ public class RestauranteServiceTest {
         when(restauranteRepository.save(restaurante)).thenReturn(restaurante);
         when(restauranteMapper.entityToResponse(restaurante)).thenReturn(responseDto);
 
-        // Act
         RestauranteResponseDto result = restauranteService.atualizaRestaurante(requestDto, 1);
 
-        // Assert
         Assertions.assertEquals(responseDto, result);
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
         Mockito.verify(usuarioService, Mockito.times(1)).getUsuarioByid(1);
@@ -227,7 +207,6 @@ public class RestauranteServiceTest {
 
     @Test
     void givenInvalidUsuario_whenAtualizaRestaurante_thenThrowTipoUsuarioException() {
-        // Arrange
         RestauranteRequestDto requestDto = new RestauranteRequestDto();
         requestDto.setIdUsuario(1);
 
@@ -241,7 +220,6 @@ public class RestauranteServiceTest {
         when(restauranteRepository.findById(1)).thenReturn(Optional.of(restaurante));
         when(usuarioService.getUsuarioByid(1)).thenReturn(usuario);
 
-        // Act & Assert
         Assertions.assertThrows(TipoUsuarioException.class, () ->
                 restauranteService.atualizaRestaurante(requestDto, 1));
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
@@ -250,7 +228,6 @@ public class RestauranteServiceTest {
 
     @Test
     void givenValidId_whenGetRestaurante_thenReturnRestauranteResponseDto() {
-        // Arrange
         Restaurante restaurante = new Restaurante();
         restaurante.setIdRestaurante(1L);
 
@@ -259,10 +236,8 @@ public class RestauranteServiceTest {
         when(restauranteRepository.findById(1)).thenReturn(Optional.of(restaurante));
         when(restauranteMapper.entityToResponse(restaurante)).thenReturn(responseDto);
 
-        // Act
         RestauranteResponseDto result = restauranteService.getRestaurante(1);
 
-        // Assert
         Assertions.assertEquals(responseDto, result);
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);
         Mockito.verify(restauranteMapper, Mockito.times(1)).entityToResponse(restaurante);
@@ -270,10 +245,8 @@ public class RestauranteServiceTest {
 
     @Test
     void givenInvalidId_whenGetRestaurante_thenThrowRestauranteNotFoundException() {
-        // Arrange
         when(restauranteRepository.findById(1)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(RestauranteNotFoundException.class, () ->
                 restauranteService.getRestaurante(1));
         Mockito.verify(restauranteRepository, Mockito.times(1)).findById(1);

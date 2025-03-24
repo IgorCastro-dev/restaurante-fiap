@@ -1,6 +1,6 @@
 package com.fiap.restaurante.domain.entity;
 
-import com.fiap.restaurante.exception.TipoUsuarioNotFoundException;
+import com.fiap.restaurante.application.exception.TipoUsuarioNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;

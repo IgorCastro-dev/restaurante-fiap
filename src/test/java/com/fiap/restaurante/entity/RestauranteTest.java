@@ -9,12 +9,10 @@ public class RestauranteTest {
 
     @Test
     void testGettersAndSetters() {
-        // Arrange
         Restaurante restaurante = new Restaurante();
         Usuario dono = new Usuario();
         dono.setIdUsusario(1);
 
-        // Act
         restaurante.setIdRestaurante(1L);
         restaurante.setNome("Restaurante Teste");
         restaurante.setEndereco("Endereço Teste");
@@ -22,7 +20,6 @@ public class RestauranteTest {
         restaurante.setHorarioFuncionamento("Horário Teste");
         restaurante.setDono(dono);
 
-        // Assert
         assertEquals(1L, restaurante.getIdRestaurante());
         assertEquals("Restaurante Teste", restaurante.getNome());
         assertEquals("Endereço Teste", restaurante.getEndereco());
@@ -33,7 +30,7 @@ public class RestauranteTest {
 
     @Test
     void testConstructor() {
-        // Arrange
+
         Long id = 1L;
         String nome = "Restaurante Teste";
         String endereco = "Endereço Teste";
@@ -42,7 +39,6 @@ public class RestauranteTest {
         Usuario dono = new Usuario();
         dono.setIdUsusario(1);
 
-        // Act
         Restaurante restaurante = Restaurante.builder()
                 .idRestaurante(id)
                 .nome(nome)
@@ -52,7 +48,6 @@ public class RestauranteTest {
                 .dono(dono)
                 .build();
 
-        // Assert
         assertEquals(id, restaurante.getIdRestaurante());
         assertEquals(nome, restaurante.getNome());
         assertEquals(endereco, restaurante.getEndereco());
@@ -63,7 +58,6 @@ public class RestauranteTest {
 
     @Test
     void testEqualsAndHashCode() {
-        // Arrange
         Usuario dono = new Usuario();
         dono.setIdUsusario(1);
 
@@ -85,15 +79,13 @@ public class RestauranteTest {
                 .dono(dono)
                 .build();
 
-        // Assert
-        assertEquals(restaurante1, restaurante2); // Verifica se os objetos são iguais
-        assertEquals(restaurante1.hashCode(), restaurante2.hashCode()); // Verifica se os hashCodes são iguais
-        assertNotEquals(restaurante1, restaurante3); // Verifica se os objetos são diferentes
+        assertEquals(restaurante1, restaurante2);
+        assertEquals(restaurante1.hashCode(), restaurante2.hashCode());
+        assertNotEquals(restaurante1, restaurante3);
     }
 
     @Test
     void testToString() {
-        // Arrange
         Usuario dono = new Usuario();
         dono.setIdUsusario(1);
 
@@ -106,13 +98,13 @@ public class RestauranteTest {
                 .dono(dono)
                 .build();
 
-        // Act
+
         String toStringResult = restaurante.toString();
 
-        // Assert
-        assertTrue(toStringResult.contains("Restaurante Teste")); // Verifica se o nome está na string
-        assertTrue(toStringResult.contains("Endereço Teste")); // Verifica se o endereço está na string
-        assertTrue(toStringResult.contains("Cozinha Teste")); // Verifica se o tipo de cozinha está na string
-        assertTrue(toStringResult.contains("Horário Teste")); // Verifica se o horário de funcionamento está na string
+
+        assertTrue(toStringResult.contains("Restaurante Teste"));
+        assertTrue(toStringResult.contains("Endereço Teste"));
+        assertTrue(toStringResult.contains("Cozinha Teste"));
+        assertTrue(toStringResult.contains("Horário Teste"));
     }
 }
