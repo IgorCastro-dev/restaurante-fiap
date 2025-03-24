@@ -60,7 +60,7 @@ class ItemCardapioControllerTest {
     @Test
     void testAtualizarCardapio() throws Exception {
         ItemCardapioDto itemDto = new ItemCardapioDto();
-        itemDto.setNome("Pizza");  // Adicione os campos obrigatórios
+        itemDto.setNome("Pizza");
         itemDto.setPreco(BigDecimal.TEN);
 
         when(itemCardapioService.atualizaCardapio(any(ItemCardapioDto.class), anyLong()))

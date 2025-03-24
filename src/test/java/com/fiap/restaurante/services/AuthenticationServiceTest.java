@@ -50,34 +50,29 @@ public class AuthenticationServiceTest {
 
     @Test
     void givenValidCredentials_whenAuthenticate_thenReturnToken() {
-        // Arrange
         LoginDto loginDto = new LoginDto("username", "password");
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
         Usuario usuario = new Usuario();
-        usuario.setNome("username"); // Certifique-se de que o campo é "username", não "nome"
+        usuario.setNome("username");
 
         Authentication authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(usuario);
         when(authenticationManager.authenticate(authenticationToken)).thenReturn(authentication);
 
-        // Cria um mock da interface Token
         Token tokenMock = mock(Token.class);
         when(tokenService.allocateToken(usuario.getUsername())).thenReturn(tokenMock);
 
-        // Act
         Token result = authenticationService.autenticate(loginDto);
 
-        // Assert
-        Assertions.assertEquals(tokenMock, result); // Verifica se o token retornado é o mock
+        Assertions.assertEquals(tokenMock, result);
         Mockito.verify(authenticationManager, Mockito.times(1)).authenticate(authenticationToken);
         Mockito.verify(tokenService, Mockito.times(1)).allocateToken(usuario.getUsername());
     }
 
     @Test
     void givenInvalidCredentials_whenAuthenticate_thenThrowCredencialErradoException() {
-        // Arrange
         LoginDto loginDto = new LoginDto("username", "wrongpassword");
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
@@ -85,14 +80,12 @@ public class AuthenticationServiceTest {
         when(authenticationManager.authenticate(authenticationToken))
                 .thenThrow(new BadCredentialsException("Credenciais inválidas."));
 
-        // Act & Assert
         Assertions.assertThrows(CredencialErradoException.class, () -> authenticationService.autenticate(loginDto));
         Mockito.verify(authenticationManager, Mockito.times(1)).authenticate(authenticationToken);
     }
 
     @Test
     void givenValidPasswordChange_whenTrocaSenha_thenReturnSuccessMessage() {
-        // Arrange
         Date today = new Date();
         String jwt = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256,"$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
@@ -113,7 +106,6 @@ public class AuthenticationServiceTest {
         when(passwordEncoder.encode("newPassword")).thenReturn("encodedNewPassword");
 
 
-        // Assert
         Assertions.assertEquals("Senha alterada com sucesso", authenticationService.trocaSenha(trocaSenhaDto, bearerToken));
         Mockito.verify(usuarioRepository, Mockito.times(1)).findByLogin("username");
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(usuario);
@@ -121,7 +113,6 @@ public class AuthenticationServiceTest {
 
     @Test
     void givenMismatchedPasswords_whenTrocaSenha_thenThrowCredencialErradoException() {
-        // Arrange
         Date today = new Date();
         String jwt = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256,"$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
@@ -138,14 +129,13 @@ public class AuthenticationServiceTest {
         usuario.setSenha(passwordEncoder.encode("oldPassword"));
 
         when(usuarioRepository.findByLogin("username")).thenReturn(Optional.of(usuario));
-        // Act & Assert
+
         Assertions.assertThrows(CredencialErradoException.class, () ->
                 authenticationService.trocaSenha(trocaSenhaDto, bearerToken));
     }
 
     @Test
     void givenIncorrectCurrentPassword_whenTrocaSenha_thenThrowCredencialErradoException() {
-        // Arrange
         Date today = new Date();
         String jwt = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256,"$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
@@ -164,7 +154,6 @@ public class AuthenticationServiceTest {
         when(usuarioRepository.findByLogin("username")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("wrongPassword", usuario.getSenha())).thenReturn(false);
 
-        // Act & Assert
         Assertions.assertThrows(CredencialErradoException.class, () ->
                 authenticationService.trocaSenha(trocaSenhaDto, bearerToken));
     }

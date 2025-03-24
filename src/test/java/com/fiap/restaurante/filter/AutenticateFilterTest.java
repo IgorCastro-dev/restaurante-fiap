@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -53,20 +52,16 @@ class AutenticateFilterTest {
 
     @Test
     void testGetToken_NoToken() throws ServletException, IOException {
-        // Arrange
         when(request.getHeader("Authorization")).thenReturn(null);
 
-        // Act
         autenticateFilter.doFilterInternal(request, response, filterChain);
 
-        // Assert: Verifica se a requisição seguiu o fluxo normal
         verify(filterChain).doFilter(request, response);
         assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
     @Test
     void testGetToken_ValidToken() throws ServletException, IOException {
-        // Gerando um JWT válido
         Date today = new Date();
         String jwt = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS256,
@@ -77,19 +72,16 @@ class AutenticateFilterTest {
                 .setExpiration(new Date(today.getTime() + 1000 * 60 * 15))
                 .compact();
 
-        // Arrange
         Usuario usuario = new Usuario();
-        usuario.setTipoUsuario(TipoUsuario.CLIENTE); // 👈 Corrigido
+        usuario.setTipoUsuario(TipoUsuario.CLIENTE);
 
         when(request.getHeader("Authorization")).thenReturn(String.format("Bearer %s", jwt));
         when(tokenService.verifyToken(anyString())).thenReturn(mockToken);
         when(mockToken.getExtendedInformation()).thenReturn("user123");
         when(usuarioRepository.findByLogin("user123")).thenReturn(Optional.of(usuario));
 
-        // Act
         autenticateFilter.doFilterInternal(request, response, filterChain);
 
-        // Assert
         assertNotNull(SecurityContextHolder.getContext().getAuthentication());
         assertEquals(usuario, SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         verify(filterChain).doFilter(request, response);
@@ -99,13 +91,12 @@ class AutenticateFilterTest {
 
     @Test
     void testGetToken_InvalidToken() throws ServletException, IOException {
-        // Arrange
+
         when(request.getHeader("Authorization")).thenReturn("Bearer invalid-token");
         when(tokenService.verifyToken("invalid-token")).thenReturn(mockToken);
         when(mockToken.getExtendedInformation()).thenReturn("user123");
         when(usuarioRepository.findByLogin("user123")).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(UsuarioNotFoundException.class, () -> autenticateFilter.doFilterInternal(request, response, filterChain));
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(filterChain, never()).doFilter(request, response);

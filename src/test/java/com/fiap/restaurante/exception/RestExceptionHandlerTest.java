@@ -35,13 +35,11 @@ public class RestExceptionHandlerTest {
 
     @BeforeEach
     void setUp() {
-        // Configura o MockMvc para usar o RestExceptionHandler
         mockMvc = MockMvcBuilders.standaloneSetup(new TestController())
                 .setControllerAdvice(restExceptionHandler)
                 .build();
     }
 
-    // Controlador de teste para simular exceções
     @RestController
     @RequestMapping("/test")
     static class TestController {
@@ -77,11 +75,9 @@ public class RestExceptionHandlerTest {
 
         @PostMapping("/validacao-falha")
         public void validacaoFalha(@Valid @RequestBody TestModel testModel) {
-            // Este método não precisa fazer nada, pois a validação será feita automaticamente pelo Spring
         }
     }
 
-    // Classe de modelo para validação
     static class TestModel {
         @NotNull(message = "O campo 'nome' é obrigatório")
         private String nome;
@@ -110,32 +106,32 @@ public class RestExceptionHandlerTest {
     @Test
     void givenUsuarioNotFoundException_whenHandleException_thenReturnNotFound() throws Exception {
         mockMvc.perform(get("/test/usuario-not-found"))
-                .andExpect(status().isNotFound()) // Verifica o status HTTP 404
-                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND")) // Verifica o status no JSON
-                .andExpect(jsonPath("$.message").value("Usuário não encontrado")); // Verifica a mensagem no JSON
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND"))
+                .andExpect(jsonPath("$.message").value("Usuário não encontrado"));
     }
 
     @Test
     void givenRestauranteNotFoundException_whenHandleException_thenReturnNotFound() throws Exception {
         mockMvc.perform(get("/test/restaurante-not-found"))
-                .andExpect(status().isNotFound()) // Verifica o status HTTP 404
-                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND")) // Verifica o status no JSON
-                .andExpect(jsonPath("$.message").value("Restaurante não encontrado")); // Verifica a mensagem no JSON
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND"))
+                .andExpect(jsonPath("$.message").value("Restaurante não encontrado"));
     }
 
     @Test
     void givenTipoUsuarioException_whenHandleException_thenReturnBadRequest() throws Exception {
         mockMvc.perform(get("/test/tipo-usuario-exception"))
-                .andExpect(status().isBadRequest()) // Verifica o status HTTP 400
-                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST")) // Verifica o status no JSON
-                .andExpect(jsonPath("$.message").value("Tipo de usuário inválido")); // Verifica a mensagem no JSON
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.httpStatus").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("Tipo de usuário inválido"));
     }
 
     @Test
     void givenTipoUsuarioNotFoundException_whenHandleException_thenReturnNotFound() throws Exception {
         mockMvc.perform(get("/test/tipo-usuario-not-found"))
-                .andExpect(status().isNotFound()) // Verifica o status HTTP 404
-                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND")) // Verifica o status no JSON
-                .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado")); // Verifica a mensagem no JSON
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.httpStatus").value("NOT_FOUND"))
+                .andExpect(jsonPath("$.message").value("Tipo de usuário não encontrado"));
     }
 }

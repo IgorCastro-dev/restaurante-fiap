@@ -37,7 +37,6 @@ public class ItemCardapioServiceTest {
     @Transactional
     void givenValidItemCardapioDto_whenSalvarItemCardapio_thenReturnItemCardapioDto() {
 
-        // Arrange
         ItemCardapioDto itemCardapioDto = new ItemCardapioDto();
         itemCardapioDto.setNome("Item Teste");
         itemCardapioDto.setCaminhoFoto("caminho/foto.jpg");
@@ -57,10 +56,8 @@ public class ItemCardapioServiceTest {
         when(itemCardapioRepository.save(itemCardapio)).thenReturn(itemCardapio);
         when(itemCardapioMapper.entityToDto(itemCardapio)).thenReturn(itemCardapioDto);
 
-        // Act
         ItemCardapioDto result = itemCardapioService.salvarItemCardapio(itemCardapioDto);
 
-        // Assert
         Assertions.assertEquals(itemCardapioDto, result);
         Mockito.verify(itemCardapioMapper, Mockito.times(1)).dtoToEntity(itemCardapioDto);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).save(itemCardapio);
@@ -70,7 +67,6 @@ public class ItemCardapioServiceTest {
     @Test
     @Transactional
     void givenValidItemCardapioDto_whenAtualizaCardapio_thenReturnItemCardapioDto() {
-        // Arrange
         Long idCardapio = 1L;
         ItemCardapioDto itemCardapioDto = new ItemCardapioDto();
         itemCardapioDto.setNome("Item Atualizado");
@@ -91,10 +87,8 @@ public class ItemCardapioServiceTest {
         when(itemCardapioRepository.save(itemCardapioExistente)).thenReturn(itemCardapioExistente);
         when(itemCardapioMapper.entityToDto(itemCardapioExistente)).thenReturn(itemCardapioDto);
 
-        // Act
         ItemCardapioDto result = itemCardapioService.atualizaCardapio(itemCardapioDto, idCardapio);
 
-        // Assert
         Assertions.assertEquals(itemCardapioDto, result);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).save(itemCardapioExistente);
@@ -103,13 +97,11 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenInvalidId_whenAtualizaCardapio_thenThrowUsuarioNotFoundException() {
-        // Arrange
         Long idCardapio = 1L;
         ItemCardapioDto itemCardapioDto = new ItemCardapioDto();
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(UsuarioNotFoundException.class, () ->
                 itemCardapioService.atualizaCardapio(itemCardapioDto, idCardapio));
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
@@ -117,7 +109,6 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenItems_whenListarCardapio_thenReturnListOfItemCardapioDto() {
-        // Arrange
         ItemCardapio itemCardapio = new ItemCardapio();
         itemCardapio.setIdItemCardapio(1L);
         itemCardapio.setNome("Item Teste");
@@ -128,10 +119,8 @@ public class ItemCardapioServiceTest {
         when(itemCardapioRepository.findAll()).thenReturn(List.of(itemCardapio));
         when(itemCardapioMapper.entitiesToDto(List.of(itemCardapio))).thenReturn(List.of(itemCardapioDto));
 
-        // Act
         List<ItemCardapioDto> result = itemCardapioService.listarCardapio();
 
-        // Assert
         Assertions.assertEquals(1, result.size());
         Assertions.assertEquals(itemCardapioDto, result.get(0));
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findAll();
@@ -140,29 +129,24 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenValidId_whenDeletaCardapio_thenDeleteItemCardapio() {
-        // Arrange
         Long idCardapio = 1L;
         ItemCardapio itemCardapio = new ItemCardapio();
         itemCardapio.setIdItemCardapio(idCardapio);
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.of(itemCardapio));
 
-        // Act
         itemCardapioService.deletaCardapio(idCardapio);
 
-        // Assert
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).delete(itemCardapio);
     }
 
     @Test
     void givenInvalidId_whenDeletaCardapio_thenThrowUsuarioNotFoundException() {
-        // Arrange
         Long idCardapio = 1L;
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(UsuarioNotFoundException.class, () ->
                 itemCardapioService.deletaCardapio(idCardapio));
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
@@ -170,7 +154,6 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenValidId_whenGetCardapio_thenReturnItemCardapioDto() {
-        // Arrange
         Long idCardapio = 1L;
         ItemCardapio itemCardapio = new ItemCardapio();
         itemCardapio.setIdItemCardapio(idCardapio);
@@ -180,10 +163,8 @@ public class ItemCardapioServiceTest {
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.of(itemCardapio));
         when(itemCardapioMapper.entityToDto(itemCardapio)).thenReturn(itemCardapioDto);
 
-        // Act
         ItemCardapioDto result = itemCardapioService.getCardapio(idCardapio);
 
-        // Assert
         Assertions.assertEquals(itemCardapioDto, result);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
         Mockito.verify(itemCardapioMapper, Mockito.times(1)).entityToDto(itemCardapio);
@@ -191,12 +172,10 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenInvalidId_whenGetCardapio_thenThrowUsuarioNotFoundException() {
-        // Arrange
         Long idCardapio = 1L;
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(UsuarioNotFoundException.class, () ->
                 itemCardapioService.getCardapio(idCardapio));
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
@@ -204,29 +183,24 @@ public class ItemCardapioServiceTest {
 
     @Test
     void givenValidId_whenGetCardapioByid_thenReturnItemCardapio() {
-        // Arrange
         Long idCardapio = 1L;
         ItemCardapio itemCardapio = new ItemCardapio();
         itemCardapio.setIdItemCardapio(idCardapio);
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.of(itemCardapio));
 
-        // Act
         ItemCardapio result = itemCardapioService.getCardapioByid(idCardapio);
 
-        // Assert
         Assertions.assertEquals(itemCardapio, result);
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);
     }
 
     @Test
     void givenInvalidId_whenGetCardapioByid_thenThrowUsuarioNotFoundException() {
-        // Arrange
         Long idCardapio = 1L;
 
         when(itemCardapioRepository.findById(idCardapio)).thenReturn(Optional.empty());
 
-        // Act & Assert
         Assertions.assertThrows(UsuarioNotFoundException.class, () ->
                 itemCardapioService.getCardapioByid(idCardapio));
         Mockito.verify(itemCardapioRepository, Mockito.times(1)).findById(idCardapio);

@@ -40,7 +40,6 @@ class UsuarioControllerTest {
 
     @Test
     void testListarUsuario() throws Exception {
-        // Cria um DTO de resposta simulado
         UsuarioDto usuarioDto = new UsuarioDto();
         usuarioDto.setNome("Usuário Teste");
         usuarioDto.setEmail("teste@example.com");
@@ -48,10 +47,8 @@ class UsuarioControllerTest {
         usuarioDto.setSenha("senha123");
         usuarioDto.setEndereco("Rua Teste, 123");
 
-        // Configura o comportamento simulado do serviço
         when(usuarioService.listaUsuario()).thenReturn(List.of(usuarioDto));
 
-        // Executa a requisição simulada
         mockMvc.perform(get("/usuario/listar"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome").value("Usuário Teste"))
@@ -63,7 +60,7 @@ class UsuarioControllerTest {
 
     @Test
     void testBuscarUsuario() throws Exception {
-        // Cria um DTO de resposta simulado
+
         UsuarioDto usuarioDto = new UsuarioDto();
         usuarioDto.setNome("Usuário Teste");
         usuarioDto.setEmail("teste@example.com");
@@ -71,10 +68,8 @@ class UsuarioControllerTest {
         usuarioDto.setSenha("senha123");
         usuarioDto.setEndereco("Rua Teste, 123");
 
-        // Configura o comportamento simulado do serviço
         when(usuarioService.getUsuario(anyInt())).thenReturn(usuarioDto);
 
-        // Executa a requisição simulada
         mockMvc.perform(get("/usuario/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nome").value("Usuário Teste"))
@@ -85,10 +80,8 @@ class UsuarioControllerTest {
 
     @Test
     void testDeletarUsuario() throws Exception {
-        // Configura o comportamento simulado do serviço
         doNothing().when(usuarioService).deletaUsuario(anyInt());
 
-        // Executa a requisição simulada
         mockMvc.perform(delete("/usuario/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Usuário deletado com sucesso"));
@@ -96,17 +89,14 @@ class UsuarioControllerTest {
 
     @Test
     void testAtualizarUsuario() throws Exception {
-        // Cria um DTO de resposta simulado
         UsuarioSemSenhaDto usuarioSemSenhaDto = new UsuarioSemSenhaDto();
         usuarioSemSenhaDto.setNome("Usuário Atualizado");
         usuarioSemSenhaDto.setEmail("atualizado@example.com");
         usuarioSemSenhaDto.setLogin("atualizado");
         usuarioSemSenhaDto.setEndereco("Rua Atualizada, 123");
 
-        // Configura o comportamento simulado do serviço
         when(usuarioService.atualizaUsuario(any(UsuarioSemSenhaDto.class), anyInt())).thenReturn(usuarioSemSenhaDto);
 
-        // Executa a requisição simulada
         mockMvc.perform(put("/usuario/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""

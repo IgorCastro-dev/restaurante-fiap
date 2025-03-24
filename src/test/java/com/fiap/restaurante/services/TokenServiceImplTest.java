@@ -19,36 +19,29 @@ public class TokenServiceImplTest {
 
     @Test
     void givenValidUsername_whenAllocateToken_thenReturnValidTokenDto() {
-        // Arrange
         String username = "username";
         TokenServiceImpl tokenService = new TokenServiceImpl();
 
-        // Act
         TokenDto result = (TokenDto) tokenService.allocateToken(username);
 
-        // Assert
-        Assertions.assertNotNull(result); // Verifica se o resultado não é nulo
+        Assertions.assertNotNull(result);
 
-        // Decodifica o token para verificar seu conteúdo
         Claims claims = Jwts.parser()
                 .setSigningKey("$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")
                 .parseClaimsJws(result.getKey())
                 .getBody();
 
-        // Verifica as informações do token
-        Assertions.assertEquals(username, claims.getSubject()); // Verifica o subject
-        Assertions.assertEquals("Token do app", claims.getIssuer()); // Verifica o issuer
-        Assertions.assertTrue(claims.getIssuedAt().before(new Date())); // Verifica se a data de emissão é anterior à data atual
-        Assertions.assertTrue(claims.getExpiration().after(new Date())); // Verifica se a data de expiração é posterior à data atual
+        Assertions.assertEquals(username, claims.getSubject());
+        Assertions.assertEquals("Token do app", claims.getIssuer());
+        Assertions.assertTrue(claims.getIssuedAt().before(new Date()));
+        Assertions.assertTrue(claims.getExpiration().after(new Date()));
 
-        // Verifica as informações do TokenDto
-        Assertions.assertEquals(result.getKey(), result.getKey()); // Verifica o token
-        Assertions.assertEquals(username, result.getExtendedInformation()); // Verifica o username
+        Assertions.assertEquals(result.getKey(), result.getKey());
+        Assertions.assertEquals(username, result.getExtendedInformation());
     }
 
     @Test
     void givenValidToken_whenVerifyToken_thenReturnValidTokenDto() {
-        // Arrange
         String token = "validToken";
         Date issuedAt = new Date();
         String username = "username";
@@ -57,9 +50,7 @@ public class TokenServiceImplTest {
         when(claims.getIssuedAt()).thenReturn(issuedAt);
         when(claims.getSubject()).thenReturn(username);
 
-        // Mock do Jwts.parser()
         try (MockedStatic<Jwts> mockedJwts = Mockito.mockStatic(Jwts.class)) {
-            // Mock do JwtParser
             JwtParser jwtParser = mock(JwtParser.class);
             Jws<Claims> jws = mock(Jws.class);
 
@@ -67,41 +58,32 @@ public class TokenServiceImplTest {
             when(jwtParser.setSigningKey("$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")).thenReturn(jwtParser);
             when(jwtParser.parseClaimsJws(token)).thenReturn(jws);
 
-            // Configura o mock estático para retornar o JwtParser mockado
             mockedJwts.when(Jwts::parser).thenReturn(jwtParser);
 
             TokenServiceImpl tokenService = new TokenServiceImpl();
 
-            // Act
             TokenDto result = (TokenDto) tokenService.verifyToken(token);
 
-            // Assert
-            Assertions.assertNotNull(result); // Verifica se o resultado não é nulo
-            Assertions.assertEquals(token, result.getKey()); // Verifica o token
-            Assertions.assertEquals(username, result.getExtendedInformation()); // Verifica o username
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals(token, result.getKey());
+            Assertions.assertEquals(username, result.getExtendedInformation());
         }
     }
 
     @Test
     void givenInvalidToken_whenVerifyToken_thenThrowException() {
-        // Arrange
         String token = "invalidToken";
 
-        // Mock do Jwts.parser()
         try (MockedStatic<Jwts> mockedJwts = Mockito.mockStatic(Jwts.class)) {
-            // Mock do JwtParser
             JwtParser jwtParser = mock(JwtParser.class);
 
-            // Configura o mock estático para retornar o JwtParser mockado
             mockedJwts.when(Jwts::parser).thenReturn(jwtParser);
 
-            // Configura o JwtParser mockado para lançar uma exceção
             when(jwtParser.setSigningKey("$2a$12$gas0FT8qIhvVeYunvLNz8eA2otC0VFCCvKIOiIbs7EISdrAMVlUY6")).thenReturn(jwtParser);
             when(jwtParser.parseClaimsJws(token)).thenThrow(new RuntimeException("Token inválido"));
 
             TokenServiceImpl tokenService = new TokenServiceImpl();
 
-            // Act & Assert
             Assertions.assertThrows(RuntimeException.class, () -> tokenService.verifyToken(token));
         }
     }

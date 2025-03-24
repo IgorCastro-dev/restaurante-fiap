@@ -39,19 +39,15 @@ class RestauranteControllerTest {
 
     @Test
     void testCadastrarRestaurante() throws Exception {
-        // Cria um DTO de requisição simulado
         RestauranteRequestDto requestDto = new RestauranteRequestDto();
         requestDto.setNome("Restaurante Teste");
 
-        // Cria um DTO de resposta simulado
         RestauranteResponseDto responseDto = new RestauranteResponseDto();
         responseDto.setNome("Restaurante Teste");
 
-        // Configura o comportamento simulado do serviço
         when(restauranteService.salvarRestaurante(any(RestauranteRequestDto.class)))
                 .thenReturn(responseDto);
 
-        // Executa a requisição simulada
         mockMvc.perform(post("/cadastrar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
@@ -63,39 +59,34 @@ class RestauranteControllerTest {
                                                   "idUsuario": 1
                                                 }
                                 """))
-                .andExpect(status().isCreated()) // Verifica o status HTTP 201
-                .andExpect(jsonPath("$.nome").value("Restaurante Teste")); // Verifica apenas o nome no JSON de resposta
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
     @Test
     void testListarRestaurante() throws Exception {
-        // Cria um DTO de resposta simulado
+
         RestauranteResponseDto responseDto = new RestauranteResponseDto();
         responseDto.setNome("Restaurante Teste");
 
-        // Configura o comportamento simulado do serviço
         when(restauranteService.listarRestaurante())
                 .thenReturn(List.of(responseDto));
 
-        // Executa a requisição simulada
         mockMvc.perform(get("/listar"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(1)) // Verifica o tamanho da lista
-                .andExpect(jsonPath("$[0].nome").value("Restaurante Teste")); // Verifica o nome do primeiro elemento
+                .andExpect(jsonPath("$.size()").value(1))
+                .andExpect(jsonPath("$[0].nome").value("Restaurante Teste"));
     }
 
     @Test
     void testBuscarRestaurante() throws Exception {
-        // Cria um DTO de resposta simulado
         RestauranteResponseDto responseDto = new RestauranteResponseDto();
         responseDto.setNome("Restaurante Teste");
 
-        // Configura o comportamento simulado do serviço
         when(restauranteService.getRestaurante(anyInt())).thenReturn(responseDto);
 
-        // Executa a requisição simulada
         mockMvc.perform(get("/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nome").value("Restaurante Teste")); // Verifica apenas o nome no JSON de resposta
+                .andExpect(jsonPath("$.nome").value("Restaurante Teste"));
     }
 
     @Test
@@ -106,11 +97,10 @@ class RestauranteControllerTest {
         responseDto.setTipoCozinha("Italiana");
         responseDto.setHorarioFuncionamento("18:00 - 24:00");
 
-        // Simula o serviço retornando o DTO com o ID esperado
-        when(restauranteService.atualizaRestaurante(any(RestauranteRequestDto.class), eq(1))) // Parêntese fechado corretamente
+        when(restauranteService.atualizaRestaurante(any(RestauranteRequestDto.class), eq(1)))
                 .thenReturn(responseDto);
 
-        mockMvc.perform(put("/1")  // ID passado na URL
+        mockMvc.perform(put("/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
