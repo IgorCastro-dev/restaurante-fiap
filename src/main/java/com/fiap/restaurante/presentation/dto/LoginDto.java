@@ -1,9 +1,13 @@
 package com.fiap.restaurante.presentation.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginDto {
     @NotBlank
     private String username;
@@ -11,6 +15,4 @@ public class LoginDto {
     @NotBlank
     private String password;
 
-    public LoginDto(String username, String password) {
-    }
 }

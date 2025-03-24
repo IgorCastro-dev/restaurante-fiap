@@ -81,6 +81,6 @@ public class RestauranteController {
     })
     @GetMapping(value = "/{idRestaurante}")
     public ResponseEntity<RestauranteResponseDto> buscarRestaurante(@PathVariable Integer idRestaurante) {
-        return ResponseEntity.ok(restauranteService.getRestaurante(idRestaurante));
+        return ResponseEntity.status(HttpStatus.OK).body(restauranteService.getRestaurante(idRestaurante));
     }
 }
